@@ -1,0 +1,74 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model UserInfo {
+  id           String         @id @default(uuid())
+  username     String?
+  userImageUrl String?
+  userId       String?
+  email        String?        @unique
+  alias        String?
+  posts        Post[]         @relation("posts")
+  watching     Post[]         @relation("watching")
+  incomings    Conversation[] @relation("incoming")
+  outgoings    Conversation[] @relation("outgoing")
+  postId       String?
+}
+
+model Post {
+  id           String         @id @default(uuid())
+  title        String?
+  content      String?
+  category     String?
+  subCategory  String?
+  make         String?
+  model        String?
+  year         Int?           @default(1000)
+  views        Int?           @default(0)
+  comments     Comment[]
+  userInfoId   String?
+  UserInfo     UserInfo?      @relation("posts", fields: [userInfoId], references: [id])
+  watchers     UserInfo?      @relation("watching", fields: [userInfoId], references: [id])
+  Conversation Conversation[]
+}
+
+model Messages {
+  id             String        @id @default(uuid())
+  content        String?
+  sender         String?
+  Conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  conversationId String?
+}
+
+model Comment {
+  id           String         @id @default(uuid())
+  content      String?
+  isOffer      Boolean        @default(false)
+  postId       String?
+  title        String?
+  userId       String?
+  userImageUrl String?
+  username     String?
+  Post         Post?          @relation(fields: [postId], references: [id])
+  Conversation Conversation?
+}
+
+model Conversation {
+
+  id         String     @id @default(uuid())
+  locked     Boolean    @default(false)
+  incoming   UserInfo?  @relation("incoming", fields: [userInfoId], references: [id])
+  outgoing   UserInfo?  @relation("outgoing", fields: [userInfoId], references: [id])
+  userInfoId String?
+  comment    Comment?   @relation(fields: [commentId], references: [id])
+  post       Post?      @relation(fields: [postId], references: [id])
+  messages   Messages[]
+  commentId  String?
+  postId     String?
+}
