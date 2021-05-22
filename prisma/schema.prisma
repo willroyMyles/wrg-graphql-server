@@ -33,8 +33,9 @@ model Post {
   views        Int?           @default(0)
   comments     Comment[]
   userInfoId   String?
+  watchingId    String?
   UserInfo     UserInfo?      @relation("posts", fields: [userInfoId], references: [id])
-  watchers     UserInfo?      @relation("watching", fields: [userInfoId], references: [id])
+  watchers     UserInfo?      @relation("watching", fields: [watchingId], references: [id])
   Conversation Conversation[]
 }
 

@@ -2,10 +2,11 @@ import { PrismaClient } from ".prisma/client";
 import { Res } from "@nestjs/common";
 import { AnyFilesInterceptor } from "@nestjs/platform-express";
 import { BaseModel } from "src/base/model";
+import { Post } from "src/post/post.model";
 import { UserInfo } from "src/user-info/userInfo.model";
 
 export class DataBase{
-    prismaBase = new PrismaClient();
+    protected prismaBase = new PrismaClient();
 
 
     create = async (obj : any, type : BaseModel) => 
@@ -16,6 +17,9 @@ export class DataBase{
             switch(true){
                 case type instanceof UserInfo : 
                 ans = await  this.prismaBase.userInfo.create({data : obj});
+                break;
+                case type instanceof Post : 
+                ans = await  this.prismaBase.post.create({data : obj});
                 break;
             }
     

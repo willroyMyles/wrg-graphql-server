@@ -20,7 +20,6 @@ export class UserInfoResolver{
         var ans =  await this.service.getUserinfoByEmail(input);
         console.log(ans);
         return ans;
-        
     }
 
 }
