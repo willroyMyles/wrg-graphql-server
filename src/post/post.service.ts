@@ -8,9 +8,7 @@ import { Post } from "./post.model";
 @Injectable()
 export class PostService{
     getUserInfoFromPost(parent: Post): any {
-        const ui : UserInfo = parent["UserInfo"];
-        console.log("thi is it", ui);
-        
+        const ui : UserInfo = parent["UserInfo"];        
         return ui
     }
     async createPost(input: CreatePostArgs) {

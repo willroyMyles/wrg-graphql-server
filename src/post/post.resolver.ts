@@ -18,7 +18,6 @@ export class PostResolver{
     @Query(()=> [Post])
     async getPosts(){
         var ans = await this.service.getPosts();
-        // console.log("this is ans", ans);
         return ans;
         
     }
@@ -27,15 +26,6 @@ export class PostResolver{
     async userInfo(
         @Parent() parent : Post,
         ){
-
-            // var ui = new UserInfo();
-            // ui = s;
-            // ui.alias = parent.userInfo.alias
-            // ui.email = email
-            // ui.id = id
-            // ui.userId = userId
-            // ui.userImageUrl = userImageUrl
-            // ui.username = username
              const ui : UserInfo= this.service.getUserInfoFromPost(parent);
             return ui;
         }

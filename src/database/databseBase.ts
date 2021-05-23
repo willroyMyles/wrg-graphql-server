@@ -4,16 +4,22 @@ import { AnyFilesInterceptor } from "@nestjs/platform-express";
 import { BaseModel } from "src/base/model";
 import { Post } from "src/post/post.model";
 import { UserInfo } from "src/user-info/userInfo.model";
+import {Comment} from 'src/comment/entities/comment.entity'
+import { CreateCommentInput } from "src/comment/dto/create-comment.dto";
 
 export class DataBase{
     protected prismaBase = new PrismaClient();
 
 
     create = async (obj : any, type : BaseModel) => 
-       { try{
+       { 
+           
+           
+           try{
             var ans : any;
+
+            
             debugger
-            console.log(type instanceof UserInfo )
             switch(true){
                 case type instanceof UserInfo : 
                 ans = await  this.prismaBase.userInfo.create({data : obj});
@@ -21,8 +27,23 @@ export class DataBase{
                 case type instanceof Post : 
                 ans = await  this.prismaBase.post.create({data : obj});
                 break;
+                case type instanceof Comment : 
+                var cast : CreateCommentInput = obj;  
+                console.log(obj.content);
+                
+                ans = await  this.prismaBase.comment.create({data : {
+                    postId : obj["postId"],
+                    isOffer : obj["isOffer"],
+                    userImageUrl : obj["userImageUrl"],
+                    username : obj["username"],
+                    userId : obj["userId"],
+                    content : obj["content"],
+
+                }});
+                break;
             }
-    
+            console.log("at db", ans);
+            
             return ans;
         }catch(e){
             console.log(e);

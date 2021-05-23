@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CommentModule } from './comment/comment.module';
 import PostModule from './post/post.module';
 import UserInfoModule from './user-info/userInfo.module';
 
@@ -11,7 +12,8 @@ import UserInfoModule from './user-info/userInfo.module';
       autoSchemaFile:true
     }),
     UserInfoModule,
-    PostModule
+    PostModule,
+    CommentModule
   ],
   controllers: [AppController],
   providers: [AppService],
