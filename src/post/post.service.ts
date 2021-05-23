@@ -7,6 +7,16 @@ import { Post } from "./post.model";
 
 @Injectable()
 export class PostService{
+    resolveCommentField(parent: Post): Comment {
+        console.log("this is parent", parent);
+        
+         const c : Comment = parent["comment"];
+         return c;
+    }
+    async getCommentsByPostId(postId: string) {
+        var ans = await this.db.getCommentsByPostId(postId);
+    return ans;
+    }
     getUserInfoFromPost(parent: Post): any {
         const ui : UserInfo = parent["UserInfo"];        
         return ui

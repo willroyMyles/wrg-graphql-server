@@ -6,6 +6,16 @@ import {Comment} from 'src/comment/entities/comment.entity'
 
 @Injectable()
 export class CommentService {
+  resolveCommentField(parent: Comment) {
+    const comment : Comment = parent;
+    console.log("this is resolver", comment);
+    
+    return comment;
+  }
+  async getCommentsByPostId(postId: string) {
+    var ans = await this.db.getCommentsByPostId(postId);
+    return ans;
+  }
 
   constructor(private db : CommentDatabase){}
 

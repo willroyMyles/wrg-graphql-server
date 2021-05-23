@@ -3,6 +3,7 @@ import { UserInfo } from "src/user-info/userInfo.model";
 import { CreatePostArgs } from "./dto/post.dto";
 import { Post } from "./post.model";
 import { PostService } from "./post.service";
+import {Comment} from 'src/comment/entities/comment.entity'
 
 
 @Resolver(() => Post)
@@ -14,6 +15,7 @@ export class PostResolver{
     async getPostById(){
         return null;
     }
+
 
     @Query(()=> [Post])
     async getPosts(){
@@ -29,6 +31,20 @@ export class PostResolver{
              const ui : UserInfo= this.service.getUserInfoFromPost(parent);
             return ui;
         }
+
+        @Query(()=> [Comment])
+  async getCommentsByPostId(@Args("postId") postId : string){
+      var ans = await this.service.getCommentsByPostId(postId);
+      console.log(ans);
+      
+      return ans;
+  }
+
+  @ResolveField("comments",()=> Comment)
+  async comments(@Parent() parent : Post){
+    const c = this.service.resolveCommentField(parent);
+    return c;
+  }
     
     @Mutation(()=> Post, {description : "creates a post"})
     async createPost(@Args("input") input : CreatePostArgs){

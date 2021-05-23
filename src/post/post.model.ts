@@ -1,5 +1,6 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 import { UserInfo } from "src/user-info/userInfo.model";
+import {Comment} from 'src/comment/entities/comment.entity'
 
 
 @ObjectType()
@@ -30,4 +31,6 @@ export class Post{
     userId  : String
     @Field({nullable : true})
     userImageUrl  : String
+    @Field(() => [Comment])
+    comments : Comment[]
 }

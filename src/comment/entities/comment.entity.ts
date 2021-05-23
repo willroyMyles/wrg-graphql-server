@@ -22,5 +22,6 @@ export class Comment extends BaseModel {
   post : Post
   @Field({nullable : true, defaultValue : false})
   isOffer : Boolean
+ 
   
 }
