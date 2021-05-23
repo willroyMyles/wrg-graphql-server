@@ -7,9 +7,7 @@ import {Comment} from 'src/comment/entities/comment.entity'
 @Injectable()
 export class CommentService {
   resolveCommentField(parent: Comment) {
-    const comment : Comment = parent;
-    console.log("this is resolver", comment);
-    
+    const comment : Comment = parent;    
     return comment;
   }
   async getCommentsByPostId(postId: string) {

@@ -1,12 +1,12 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 import { UserInfo } from "src/user-info/userInfo.model";
 import {Comment} from 'src/comment/entities/comment.entity'
+import { BaseModel } from "src/base/model";
 
 
 @ObjectType()
-export class Post{
-    @Field({nullable: true})
-    id : String
+export class Post extends BaseModel{
+
     @Field({nullable: true})
     title: String
     @Field({nullable: true})

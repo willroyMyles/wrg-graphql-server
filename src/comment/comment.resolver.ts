@@ -27,6 +27,7 @@ export class CommentResolver {
 
   @Mutation(() => Comment)
   async updateComment(@Args('updateCommentInput') updateCommentInput: UpdateCommentInput) {
+
     return this.commentService.update(updateCommentInput.id, updateCommentInput);
   }
 

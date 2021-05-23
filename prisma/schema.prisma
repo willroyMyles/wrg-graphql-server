@@ -19,6 +19,7 @@ model UserInfo {
   incomings    Conversation[] @relation("incoming")
   outgoings    Conversation[] @relation("outgoing")
   postId       String?
+  createdAt    DateTime       @default(now())
 }
 
 model Post {
@@ -33,10 +34,12 @@ model Post {
   views        Int?           @default(0)
   comments     Comment[]
   userInfoId   String?
-  watchingId    String?
+  watchingId   String?
   UserInfo     UserInfo?      @relation("posts", fields: [userInfoId], references: [id])
   watchers     UserInfo?      @relation("watching", fields: [watchingId], references: [id])
   Conversation Conversation[]
+  createdAt    DateTime       @default(now())
+
 }
 
 model Messages {
@@ -45,31 +48,38 @@ model Messages {
   sender         String?
   Conversation   Conversation? @relation(fields: [conversationId], references: [id])
   conversationId String?
+  createdAt      DateTime      @default(now())
+
 }
 
 model Comment {
-  id           String         @id @default(uuid())
+  id           String        @id @default(uuid())
   content      String?
-  isOffer      Boolean        @default(false)
+  isOffer      Boolean       @default(false)
   postId       String?
   title        String?
   userId       String?
   userImageUrl String?
   username     String?
-  Post         Post?          @relation(fields: [postId], references: [id])
+  Post         Post?         @relation(fields: [postId], references: [id])
   Conversation Conversation?
+  createdAt    DateTime      @default(now())
+
 }
 
 model Conversation {
 
   id         String     @id @default(uuid())
   locked     Boolean    @default(false)
-  incoming   UserInfo?  @relation("incoming", fields: [userInfoId], references: [id])
-  outgoing   UserInfo?  @relation("outgoing", fields: [userInfoId], references: [id])
   userInfoId String?
   comment    Comment?   @relation(fields: [commentId], references: [id])
   post       Post?      @relation(fields: [postId], references: [id])
-  messages   Messages[]
+  messages   Messages[] 
   commentId  String?
   postId     String?
+  createdAt  DateTime   @default(now())
+  senderId   String     
+  recieverId String     
+  reciever   UserInfo  @relation("incoming", fields: [recieverId], references: [id])
+  sender     UserInfo  @relation("outgoing", fields: [senderId], references: [id])
 }

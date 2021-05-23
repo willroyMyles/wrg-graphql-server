@@ -34,9 +34,7 @@ export class PostResolver{
 
         @Query(()=> [Comment])
   async getCommentsByPostId(@Args("postId") postId : string){
-      var ans = await this.service.getCommentsByPostId(postId);
-      console.log(ans);
-      
+      var ans = await this.service.getCommentsByPostId(postId);      
       return ans;
   }
 

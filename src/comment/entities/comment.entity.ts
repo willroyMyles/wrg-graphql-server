@@ -4,8 +4,7 @@ import { Post } from 'src/post/post.model';
 
 @ObjectType()
 export class Comment extends BaseModel {
-  @Field(()=> String, {nullable : true})
-  id : String
+
   @Field(()=> String, {nullable : true})
   content : String
   @Field(()=> String, {nullable : true})

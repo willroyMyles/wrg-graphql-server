@@ -6,6 +6,9 @@ import { Post } from "src/post/post.model";
 import { UserInfo } from "src/user-info/userInfo.model";
 import {Comment} from 'src/comment/entities/comment.entity'
 import { CreateCommentInput } from "src/comment/dto/create-comment.dto";
+import { Conversation } from "src/conversation/entities/conversation.entity";
+import { CreateConversationInput } from "src/conversation/dto/create-conversation.input";
+import { CreateMessageInput } from "src/message/dto/create-message.input";
 
 export class DataBase{
     protected prismaBase = new PrismaClient();
@@ -27,9 +30,22 @@ export class DataBase{
                 case type instanceof Post : 
                 ans = await  this.prismaBase.post.create({data : obj});
                 break;
-                case type instanceof Comment : 
-                var cast : CreateCommentInput = obj;  
-                console.log(obj.content);
+                case type instanceof Conversation : 
+                var cast : CreateConversationInput = obj;
+                var msg :CreateMessageInput = cast.messages[0];
+                var msgC = await this.prismaBase.messages.create({data:msg});
+                ans = await  this.prismaBase.conversation.create({data : {
+                    userInfoId : cast.userInfoId,
+                    locked : cast.locked,
+                    recieverId : cast.recieverId,
+                    senderId: cast.senderId,
+                    commentId : cast.commentId,
+                    messages : {connect : [{id:msgC.id}]}
+                } })
+
+                
+                break;
+                case type instanceof Comment :                 
                 
                 ans = await  this.prismaBase.comment.create({data : {
                     postId : obj["postId"],
