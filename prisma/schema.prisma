@@ -27,7 +27,6 @@ model Post {
   title        String?
   content      String?
   category     String?
-  subCategory  String?
   make         String?
   model        String?
   year         Int?           @default(1000)
@@ -74,12 +73,13 @@ model Conversation {
   userInfoId String?
   comment    Comment?   @relation(fields: [commentId], references: [id])
   post       Post?      @relation(fields: [postId], references: [id])
-  messages   Messages[] 
+  messages   Messages[]
   commentId  String?
   postId     String?
   createdAt  DateTime   @default(now())
-  senderId   String     
-  recieverId String     
-  reciever   UserInfo  @relation("incoming", fields: [recieverId], references: [id])
-  sender     UserInfo  @relation("outgoing", fields: [senderId], references: [id])
+  senderId   String
+  recieverId String
+  newMessage String?
+  reciever   UserInfo   @relation("incoming", fields: [recieverId], references: [id])
+  sender     UserInfo   @relation("outgoing", fields: [senderId], references: [id])
 }

@@ -9,8 +9,7 @@ export class CreatePostArgs{
     content: String
     @Field({nullable: true})
     category: String
-    @Field({nullable: true})
-    subCategory: String
+
     @Field({nullable: true})
     make: String
     @Field({nullable: true})

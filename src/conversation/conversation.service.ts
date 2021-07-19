@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { ConversationDatabase } from 'src/database/database.conversation';
-import { CreateConversationInput } from './dto/create-conversation.input';
+import { AddMessageToConversationInput, CreateConversationInput } from './dto/create-conversation.input';
 import { UpdateConversationInput } from './dto/update-conversation.input';
 import { Conversation } from './entities/conversation.entity';
 
 @Injectable()
 export class ConversationService {
+  async addMessageToConversation(input: AddMessageToConversationInput) {
+    return await this.db.addMessageToConversation(input);
+  }
   constructor(private db : ConversationDatabase){}
   async create(createConversationInput: CreateConversationInput) {
     return await this.db.create(createConversationInput , new Conversation());

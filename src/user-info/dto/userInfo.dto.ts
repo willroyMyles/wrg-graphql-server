@@ -28,3 +28,13 @@ export class CreateUserInfoArgs{
 export class GetUserInfoByEmailArgs{
     
 }
+
+@InputType()
+export class AddPostToWatchArgs{
+    @Field({nullable:false})
+    userId : string
+    @Field({nullable:false})
+    postId : string
+    @Field({nullable:false, defaultValue:true})
+    add: boolean
+}

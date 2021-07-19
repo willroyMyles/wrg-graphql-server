@@ -26,5 +26,7 @@ export class Conversation extends BaseModel{
   commentId  : String
   @Field({nullable:true})
   postId     : String
+  @Field({nullable:true})
+  newMessage : string
 
 }

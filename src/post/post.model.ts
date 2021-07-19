@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "@nestjs/graphql";
+import { Field, Int, ObjectType } from "@nestjs/graphql";
 import { UserInfo } from "src/user-info/userInfo.model";
 import {Comment} from 'src/comment/entities/comment.entity'
 import { BaseModel } from "src/base/model";
@@ -13,15 +13,14 @@ export class Post extends BaseModel{
     content: String
     @Field({nullable: true})
     category: String
-    @Field({nullable: true})
-    subCategory: String
+
     @Field({nullable: true})
     make: String
     @Field({nullable: true})
     model: String
-    @Field({nullable: true})
+    @Field(()=> Int, {nullable: true})
     year : number
-    @Field({nullable: true})
+    @Field(()=> Int, {nullable: true})
     views : number
     @Field(type => UserInfo)
     userInfo : UserInfo

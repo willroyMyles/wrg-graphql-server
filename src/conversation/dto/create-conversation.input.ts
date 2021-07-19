@@ -20,3 +20,13 @@ export class CreateConversationInput {
   messages : CreateMessageInput[]
 
 }
+
+@InputType()
+export class AddMessageToConversationInput{
+  @Field({nullable:false})
+  id : string
+  @Field(()=>CreateMessageInput, {nullable:false})
+  message : CreateMessageInput
+  @Field({nullable:false})
+  newMessage : string
+}
