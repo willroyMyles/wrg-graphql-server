@@ -1,14 +1,15 @@
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "mongodb"
+  url      = env("mongoUrl")
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
 }
 
 model UserInfo {
-  id           String         @id @default(uuid())
+  id           String         @id @default(uuid()) @map("_id") @db.ObjectId
   username     String?
   userImageUrl String?
   userId       String?
@@ -23,7 +24,7 @@ model UserInfo {
 }
 
 model Post {
-  id           String         @id @default(uuid())
+  id           String         @id @default(uuid()) @map("_id") @db.ObjectId
   title        String?
   content      String?
   category     String?
@@ -32,8 +33,8 @@ model Post {
   year         Int?           @default(1000)
   views        Int?           @default(0)
   comments     Comment[]
-  userInfoId   String?
-  watchingId   String?
+  userInfoId   String?        @db.ObjectId
+  watchingId   String?        @db.ObjectId
   UserInfo     UserInfo?      @relation("posts", fields: [userInfoId], references: [id])
   watchers     UserInfo?      @relation("watching", fields: [watchingId], references: [id])
   Conversation Conversation[]
@@ -42,22 +43,22 @@ model Post {
 }
 
 model Messages {
-  id             String        @id @default(uuid())
+  id             String        @id @default(uuid()) @map("_id") @db.ObjectId
   content        String?
   sender         String?
   Conversation   Conversation? @relation(fields: [conversationId], references: [id])
-  conversationId String?
+  conversationId String?       @db.ObjectId
   createdAt      DateTime      @default(now())
 
 }
 
 model Comment {
-  id           String        @id @default(uuid())
+  id           String        @id @default(uuid()) @map("_id") @db.ObjectId
   content      String?
   isOffer      Boolean       @default(false)
-  postId       String?
+  postId       String?       @db.ObjectId
   title        String?
-  userId       String?
+  userId       String?       @db.ObjectId
   userImageUrl String?
   username     String?
   Post         Post?         @relation(fields: [postId], references: [id])
@@ -68,17 +69,17 @@ model Comment {
 
 model Conversation {
 
-  id         String     @id @default(uuid())
+  id         String     @id @default(uuid()) @map("_id") @db.ObjectId
   locked     Boolean    @default(false)
   userInfoId String?
   comment    Comment?   @relation(fields: [commentId], references: [id])
   post       Post?      @relation(fields: [postId], references: [id])
   messages   Messages[]
-  commentId  String?
-  postId     String?
+  commentId  String?    @db.ObjectId
+  postId     String?    @db.ObjectId
   createdAt  DateTime   @default(now())
-  senderId   String
-  recieverId String
+  senderId   String     @db.ObjectId
+  recieverId String     @db.ObjectId
   newMessage String?
   reciever   UserInfo   @relation("incoming", fields: [recieverId], references: [id])
   sender     UserInfo   @relation("outgoing", fields: [senderId], references: [id])
